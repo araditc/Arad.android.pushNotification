@@ -37,7 +37,7 @@ Simple use cases will look something like this:
         AradPushNotification.registerDataObserver(dataObserver);
 
 
-        unregister your call back
+//      unregister your call back
 
         AradPushNotification.unregisterDataObserver(dataObserver);
        
