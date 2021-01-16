@@ -16,6 +16,8 @@
 
 package com.araditc.pushnotification;
 
+import android.os.Looper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,13 +39,11 @@ public final class AradPushNotification {
         dataObserverArrayList.add(dataObserver);
     }
 
-    public static void fireMessage(Object message) {
-        AppUtil.runOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                for (DataObserver dataObserver : dataObserverArrayList)
-                    dataObserver.onMessageReceived(message);
-            }
+    public static void fireMessage(Looper looper, Object message) {
+
+        AppUtil.runOnUIThread(looper, () -> {
+            for (DataObserver dataObserver : dataObserverArrayList)
+                dataObserver.onMessageReceived(message);
         }, 0);
 
     }
