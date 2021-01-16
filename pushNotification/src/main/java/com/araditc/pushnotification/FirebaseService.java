@@ -35,9 +35,9 @@ public final class FirebaseService extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
 
         if (!remoteMessage.getData().get("data").equals("")) {
-            AradPushNotification.fireMessage(remoteMessage.getData().get("data"));
+            AradPushNotification.fireMessage(getMainLooper(),remoteMessage.getData().get("data"));
         } else {
-            AppUtil.runOnUIThread(() -> Glide.with(FirebaseService.this)
+            AppUtil.runOnUIThread(getMainLooper(), () -> Glide.with(FirebaseService.this)
                     .asBitmap()
                     .load(remoteMessage.getNotification().getImageUrl().toString())
                     .into(new CustomTarget<Bitmap>() {

@@ -22,19 +22,13 @@ import android.os.Handler;
 import android.os.Looper;
 
 public final class AppUtil {
-    public static void runOnUIThread(Runnable runnable, long delay) {
-        Looper.prepare();
-
-        Handler applicationHandler = new Handler();
-
-        Looper.loop();
+    public static void runOnUIThread(Looper looper, Runnable runnable, long delay) {
+        Handler applicationHandler = new Handler(looper);
 
         if (delay == 0) {
             applicationHandler.post(runnable);
         } else {
             applicationHandler.postDelayed(runnable, delay);
         }
-
-
     }
 }
