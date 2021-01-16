@@ -12,7 +12,7 @@ import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
-public class NotificationBuilder {
+public final class NotificationBuilder {
     public static final int NOTIFY_ID = 1002;
     public static final int REQUEST_CODE = 1003;
     public static String ID = "21458752";
