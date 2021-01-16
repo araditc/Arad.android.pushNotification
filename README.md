@@ -5,10 +5,6 @@ A power full push message library for Android
 
 ![](https://i.ibb.co/R6xsgnJ/imageedit-24-6365187725.png)
 
-For more information please see [the website][1]
-
-
-
 Download
 --------
 
@@ -22,6 +18,30 @@ dependencies {
 }
 ```
 
+How do I use Arad Push notification?
+-------------------
+
+Simple use cases will look something like this:
+
+```java
+// For a simple view:
+        DataObserver dataObserver = new DataObserver() {
+            @Override
+            public void onMessageReceived(Object message) {
+//                do something
+
+//
+            }
+        };
+
+        AradPushNotification.registerDataObserver(dataObserver);
+
+
+        unregister your call back
+
+        AradPushNotification.unregisterDataObserver(dataObserver);
+       
+```
 
 License
 --------
