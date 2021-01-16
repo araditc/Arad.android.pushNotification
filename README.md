@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
- 	 implementation 'com.github.araditc:pushNotification:Tag'
+ 	 implementation 'com.github.araditc:pushNotification:1.0.5'
 }
 ```
 
