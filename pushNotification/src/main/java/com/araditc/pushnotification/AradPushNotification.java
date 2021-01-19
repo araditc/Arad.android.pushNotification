@@ -40,7 +40,12 @@ import static com.araditc.pushnotification.consts.MessageTypes.LOCATION;
 import static com.araditc.pushnotification.consts.MessageTypes.TEXT;
 import static com.araditc.pushnotification.consts.MessageTypes.VIDEO;
 
-public final class AradPushNotification {
+public final class AradPushNotification extends DataObserver{
+    @Override
+    public void onImageReceived(ImageStruct imageStruct) {
+        super.onImageReceived(imageStruct);
+    }
+
     private static final List<DataObserver> dataObserverArrayList = new ArrayList<>();
 
     private AradPushNotification() {
