@@ -39,6 +39,18 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import static com.araditc.pushnotification.consts.MessageTypes.AUDIO;
+import static com.araditc.pushnotification.consts.MessageTypes.CONTACT;
+import static com.araditc.pushnotification.consts.MessageTypes.CUSTOM;
+import static com.araditc.pushnotification.consts.MessageTypes.DOCUMENT;
+import static com.araditc.pushnotification.consts.MessageTypes.IMAGE;
+import static com.araditc.pushnotification.consts.MessageTypes.LOCATION;
+import static com.araditc.pushnotification.consts.MessageTypes.TEXT;
+import static com.araditc.pushnotification.consts.MessageTypes.VIDEO;
+
 public final class FirebaseService extends FirebaseMessagingService {
 
     private final String NOTIFICATION_TYPE_MESSAGE_TEXT = "MESSAGE_TEXT";
@@ -63,46 +75,46 @@ public final class FirebaseService extends FirebaseMessagingService {
 
         if (!remoteMessage.getData().get("data").equals("")) {
             try {
-                String typeString = remoteMessage.getData().get("type");
                 String dataString = remoteMessage.getData().get("data");
+                int type=new JSONObject(dataString).getInt("type");
                 MessageTemplate messageTemplate;
 
-                switch (typeString) {
+                switch (type) {
 
-                    case NOTIFICATION_TYPE_MESSAGE_TEXT:
+                    case TEXT:
                         messageTemplate = gson.fromJson(dataString, TextStruct.class);
                         break;
 
-                    case NOTIFICATION_TYPE_MESSAGE_IMAGE:
+                    case IMAGE:
                         messageTemplate = gson.fromJson(dataString, ImageStruct.class);
                         break;
 
-                    case NOTIFICATION_TYPE_MESSAGE_VIDEO:
+                    case VIDEO:
                         messageTemplate = gson.fromJson(dataString, VideoStruct.class);
 
                         break;
 
-                    case NOTIFICATION_TYPE_MESSAGE_AUDIO:
+                    case AUDIO:
                         messageTemplate = gson.fromJson(dataString, AudioStruct.class);
 
                         break;
 
-                    case NOTIFICATION_TYPE_MESSAGE_LOCATION:
+                    case LOCATION:
                         messageTemplate = gson.fromJson(dataString, LocationStruct.class);
 
                         break;
 
-                    case NOTIFICATION_TYPE_MESSAGE_CONTACT:
+                    case CONTACT:
                         messageTemplate = gson.fromJson(dataString, ContactStruct.class);
 
                         break;
 
-                    case NOTIFICATION_TYPE_MESSAGE_DOCUMENT:
+                    case DOCUMENT:
                         messageTemplate = gson.fromJson(dataString, DocumentStruct.class);
 
                         break;
 
-                    case NOTIFICATION_TYPE_MESSAGE_CUSTOM:
+                    case CUSTOM:
                         messageTemplate = gson.fromJson(dataString, CustomStruct.class);
 
                         break;
@@ -114,6 +126,8 @@ public final class FirebaseService extends FirebaseMessagingService {
 
                 AradPushNotification.fireMessage(getMainLooper(), messageTemplate);
             } catch (RuntimeException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 
