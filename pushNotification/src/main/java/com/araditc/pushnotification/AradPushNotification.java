@@ -18,8 +18,27 @@ package com.araditc.pushnotification;
 
 import android.os.Looper;
 
+import com.araditc.pushnotification.struct.AudioStruct;
+import com.araditc.pushnotification.struct.ContactStruct;
+import com.araditc.pushnotification.struct.CustomStruct;
+import com.araditc.pushnotification.struct.DocumentStruct;
+import com.araditc.pushnotification.struct.ImageStruct;
+import com.araditc.pushnotification.struct.LocationStruct;
+import com.araditc.pushnotification.struct.MessageTemplate;
+import com.araditc.pushnotification.struct.TextStruct;
+import com.araditc.pushnotification.struct.VideoStruct;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.araditc.pushnotification.consts.MessageTypes.AUDIO;
+import static com.araditc.pushnotification.consts.MessageTypes.CONTACT;
+import static com.araditc.pushnotification.consts.MessageTypes.CUSTOM;
+import static com.araditc.pushnotification.consts.MessageTypes.DOCUMENT;
+import static com.araditc.pushnotification.consts.MessageTypes.IMAGE;
+import static com.araditc.pushnotification.consts.MessageTypes.LOCATION;
+import static com.araditc.pushnotification.consts.MessageTypes.TEXT;
+import static com.araditc.pushnotification.consts.MessageTypes.VIDEO;
 
 public final class AradPushNotification {
     private static final List<DataObserver> dataObserverArrayList = new ArrayList<>();
@@ -39,12 +58,54 @@ public final class AradPushNotification {
         dataObserverArrayList.add(dataObserver);
     }
 
-    public static void fireMessage(Looper looper, Object message) {
-
+    public static void fireMessage(Looper looper, MessageTemplate message) {
         AppUtil.runOnUIThread(looper, () -> {
-            for (DataObserver dataObserver : dataObserverArrayList)
-                dataObserver.onMessageReceived(message);
+            for (DataObserver dataObserver : dataObserverArrayList) {
+                switch (message.getType()) {
+
+                    case TEXT:
+                        dataObserver.onTextReceived((TextStruct) message);
+                        break;
+
+                    case IMAGE:
+                        dataObserver.onImageReceived((ImageStruct) message);
+                        break;
+
+                    case VIDEO:
+                        dataObserver.onVideoReceived((VideoStruct) message);
+                        break;
+
+                    case AUDIO:
+                        dataObserver.onAudioReceived((AudioStruct) message);
+
+                        break;
+
+                    case LOCATION:
+                        dataObserver.onLocationReceived((LocationStruct) message);
+
+                        break;
+
+                    case CONTACT:
+                        dataObserver.onContactReceived((ContactStruct) message);
+
+                        break;
+
+                    case DOCUMENT:
+                        dataObserver.onDocumentReceived((DocumentStruct) message);
+                        break;
+
+                    case CUSTOM:
+                        dataObserver.onCustomReceived((CustomStruct) message);
+                        break;
+
+                    default:
+                        return;
+
+                }
+            }
         }, 0);
 
     }
+
+
 }
