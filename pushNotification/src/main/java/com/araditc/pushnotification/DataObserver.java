@@ -24,38 +24,37 @@ import com.araditc.pushnotification.struct.ImageStruct;
 import com.araditc.pushnotification.struct.LocationStruct;
 import com.araditc.pushnotification.struct.TextStruct;
 import com.araditc.pushnotification.struct.VideoStruct;
-import com.google.gson.JsonObject;
 
 public abstract class DataObserver {
-    void onAudioReceived(AudioStruct audioStruct) {
+    public void onAudioReceived(AudioStruct audioStruct) {
 
     }
 
-    void onContactReceived(ContactStruct contactStruct) {
+    public void onContactReceived(ContactStruct contactStruct) {
 
     }
 
-    void onDocumentReceived(DocumentStruct documentStruct) {
+    public void onDocumentReceived(DocumentStruct documentStruct) {
 
     }
 
-    void onImageReceived(ImageStruct imageStruct) {
+    public void onImageReceived(ImageStruct imageStruct) {
 
     }
 
-    void onLocationReceived(LocationStruct locationStruct) {
+    public void onLocationReceived(LocationStruct locationStruct) {
 
     }
 
-    void onTextReceived(TextStruct textStruct) {
+    public void onTextReceived(TextStruct textStruct) {
 
     }
 
-    void onVideoReceived(VideoStruct videoStruct) {
+    public void onVideoReceived(VideoStruct videoStruct) {
 
     }
 
-    void onCustomReceived(CustomStruct customStruct) {
+    public void onCustomReceived(CustomStruct customStruct) {
 
     }
 }
