@@ -16,6 +16,46 @@
 
 package com.araditc.pushnotification;
 
-public interface DataObserver {
-    void onMessageReceived(Object message);
+import com.araditc.pushnotification.struct.AudioStruct;
+import com.araditc.pushnotification.struct.ContactStruct;
+import com.araditc.pushnotification.struct.CustomStruct;
+import com.araditc.pushnotification.struct.DocumentStruct;
+import com.araditc.pushnotification.struct.ImageStruct;
+import com.araditc.pushnotification.struct.LocationStruct;
+import com.araditc.pushnotification.struct.TextStruct;
+import com.araditc.pushnotification.struct.VideoStruct;
+import com.google.gson.JsonObject;
+
+public abstract class DataObserver {
+    void onAudioReceived(AudioStruct audioStruct) {
+
+    }
+
+    void onContactReceived(ContactStruct contactStruct) {
+
+    }
+
+    void onDocumentReceived(DocumentStruct documentStruct) {
+
+    }
+
+    void onImageReceived(ImageStruct imageStruct) {
+
+    }
+
+    void onLocationReceived(LocationStruct locationStruct) {
+
+    }
+
+    void onTextReceived(TextStruct textStruct) {
+
+    }
+
+    void onVideoReceived(VideoStruct videoStruct) {
+
+    }
+
+    void onCustomReceived(CustomStruct customStruct) {
+
+    }
 }

@@ -22,20 +22,101 @@ import android.graphics.drawable.Drawable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.araditc.pushnotification.provider.GsonParserProvider;
+import com.araditc.pushnotification.struct.AudioStruct;
+import com.araditc.pushnotification.struct.ContactStruct;
+import com.araditc.pushnotification.struct.CustomStruct;
+import com.araditc.pushnotification.struct.DocumentStruct;
+import com.araditc.pushnotification.struct.ImageStruct;
+import com.araditc.pushnotification.struct.LocationStruct;
+import com.araditc.pushnotification.struct.MessageTemplate;
+import com.araditc.pushnotification.struct.TextStruct;
+import com.araditc.pushnotification.struct.VideoStruct;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.gson.Gson;
 
 public final class FirebaseService extends FirebaseMessagingService {
+
+    private final String NOTIFICATION_TYPE_MESSAGE_TEXT = "MESSAGE_TEXT";
+    private final String NOTIFICATION_TYPE_MESSAGE_IMAGE = "MESSAGE_IMAGE";
+    private final String NOTIFICATION_TYPE_MESSAGE_VIDEO = "MESSAGE_VIDEO";
+    private final String NOTIFICATION_TYPE_MESSAGE_AUDIO = "MESSAGE_AUDIO";
+    private final String NOTIFICATION_TYPE_MESSAGE_DOCUMENT = "MESSAGE_DOCUMENT";
+    private final String NOTIFICATION_TYPE_MESSAGE_LOCATION = "MESSAGE_LOCATION";
+    private final String NOTIFICATION_TYPE_MESSAGE_CONTACT = "MESSAGE_CONTACT";
+    private final String NOTIFICATION_TYPE_MESSAGE_CUSTOM = "MESSAGE_CUSTOM";
+    private Gson gson;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        gson = GsonParserProvider.provideMessageTemplate();
+    }
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
         if (!remoteMessage.getData().get("data").equals("")) {
-            AradPushNotification.fireMessage(getMainLooper(),remoteMessage.getData().get("data"));
+            try {
+                String typeString = remoteMessage.getData().get("type");
+                String dataString = remoteMessage.getData().get("data");
+                MessageTemplate messageTemplate;
+
+                switch (typeString) {
+
+                    case NOTIFICATION_TYPE_MESSAGE_TEXT:
+                        messageTemplate = gson.fromJson(dataString, TextStruct.class);
+                        break;
+
+                    case NOTIFICATION_TYPE_MESSAGE_IMAGE:
+                        messageTemplate = gson.fromJson(dataString, ImageStruct.class);
+                        break;
+
+                    case NOTIFICATION_TYPE_MESSAGE_VIDEO:
+                        messageTemplate = gson.fromJson(dataString, VideoStruct.class);
+
+                        break;
+
+                    case NOTIFICATION_TYPE_MESSAGE_AUDIO:
+                        messageTemplate = gson.fromJson(dataString, AudioStruct.class);
+
+                        break;
+
+                    case NOTIFICATION_TYPE_MESSAGE_LOCATION:
+                        messageTemplate = gson.fromJson(dataString, LocationStruct.class);
+
+                        break;
+
+                    case NOTIFICATION_TYPE_MESSAGE_CONTACT:
+                        messageTemplate = gson.fromJson(dataString, ContactStruct.class);
+
+                        break;
+
+                    case NOTIFICATION_TYPE_MESSAGE_DOCUMENT:
+                        messageTemplate = gson.fromJson(dataString, DocumentStruct.class);
+
+                        break;
+
+                    case NOTIFICATION_TYPE_MESSAGE_CUSTOM:
+                        messageTemplate = gson.fromJson(dataString, CustomStruct.class);
+
+                        break;
+
+                    default:
+                        return;
+
+                }
+
+                AradPushNotification.fireMessage(getMainLooper(), messageTemplate);
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+            }
+
         } else {
             AppUtil.runOnUIThread(getMainLooper(), () -> Glide.with(FirebaseService.this)
                     .asBitmap()
